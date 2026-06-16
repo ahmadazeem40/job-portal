@@ -20,8 +20,11 @@ public class UserService {
         this.companyRepository = companyRepository;
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+        return userRepository.findById(id).orElse(null);
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -33,7 +36,7 @@ public class UserService {
     }
 
     public User updateUser(Long id, UserDto dto) {
-        User userExist = getUserById(id).orElseThrow();
+        User userExist = getUserById(id);
         if (dto.name() != null) {
             userExist.setName(dto.name());
         }
@@ -58,7 +61,7 @@ public class UserService {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id: " + id);
         }
-        User user = getUserById(id).orElseThrow();
+        User user = getUserById(id);
         userRepository.delete(user);
     }
 
@@ -66,7 +69,7 @@ public class UserService {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id: " + id);
         }
-        User user = getUserById(id).orElse(null);
+        User user = getUserById(id);
         Company company = companyRepository.findByCompanyName(companyName).orElseThrow();
         user.setCompany(company);
         return userRepository.save(user);

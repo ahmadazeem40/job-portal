@@ -6,16 +6,17 @@ import com.ahmed.job_portal.model.JobType;
 import com.ahmed.job_portal.model.WorkMode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface JobListingRepository extends JpaRepository<JobListing, Long> {
-    public Optional<JobListing> findByCompanyId(Long id);
+    public List<JobListing> findByCompanyId(Long id);
 
-    public Optional<JobListing> findByTitleContainingIgnoreCase(String title);
+    public List<JobListing> findByTitleContainingIgnoreCase(String title);
 
-    public Optional<JobListing> findByJobType(JobType jobType);
+    public List<JobListing> findByJobType(JobType jobType);
 
-    public Optional<JobListing> findByWorkMode(WorkMode workMode);
+    public List<JobListing> findByWorkMode(WorkMode workMode);
 
-    public Optional<JobListing> findByExperienceLevel(ExperienceLevel experienceLevel);
+    public List<JobListing> findByExperienceLevel(ExperienceLevel experienceLevel);
 }
